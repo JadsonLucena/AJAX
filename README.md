@@ -88,3 +88,14 @@ Ajax('/path', {
     }
 }).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
 ```
+
+### References
+
+> [XMLHttpRequest WHATWG](https://xhr.spec.whatwg.org)\
+> [XMLHttpRequest MDN](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+
+> [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers)\
+> [MimeType](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)\
+> [ResponseType](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)\
+> [Timeout](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/timeout)\
+> [WithCredentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials)
