@@ -33,3 +33,58 @@ Ajax(
 ): Promise<resolve(success: any), reject(error: any)>
 ```
 
+## How to use
+```javascript
+// Simple GET
+    // Promise
+        Ajax('/path').then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+    
+    // Callback
+        Ajax('/path', {
+            success: e => console.log('Success', e),
+            error: e => console.log('Error', e)
+        });
+
+// Simple POST
+Ajax('/path', {
+    method: 'POST',
+    body: 'Hello World'
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+
+// Send and Receive JSON
+Ajax('/path', {
+    method: 'POST',
+    headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+    },
+    responseType: 'JSON',
+    body: JSON.stringify({"content": "Hello World"})
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+
+// Upload Progress
+Ajax('/formHandler', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    },
+    body: new FormData(),
+    progress: e => console.log('progress', e, parseInt(e.loaded / e.total * 100) +'%')
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+
+// Download Progress
+Ajax('/path', {
+    responseType: 'arraybuffer',
+    progress: e => console.log('progress', e, parseInt(e.loaded / e.total * 100) +'%')
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+
+// Credentials
+let login = 'any';
+let password = 'any';
+Ajax('/path', {
+    withCredentials: true,
+    headers: {
+        'Authorization': 'Basic '+ btoa(login +':'+ password)
+    }
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+```
