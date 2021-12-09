@@ -8,48 +8,72 @@ The XMLHttpRequest object can be used to exchange data with a server behind the 
 ## Interface
 ```javascript
 Ajax(
-    url: String,
+    url: string,
     {
-        async?: boolean = true,
-        body?: (ArrayBuffer | ArrayBufferView | Blob | BufferSource | Document | FormData | ReadableStream | string | URLSearchParams | null) = null,
-        headers?: (Headers | { [ string: string ]: string }) = {},
-        method?: ('CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE') = 'GET',
-        mimeType?: string = 'text/plain', // type/subtype;parameter=value
-        password?: (string | null) = null,
-        responseType?: ('Arraybuffer' | 'Blob' | 'Document' | 'JSON' | 'text') = 'text',
-        timeout?: number = 0, // Time in milliseconds
-        user?: (string | null) = null,
-        withCredentials?: boolean = false,
-        aborted?: (timestamp: bigint) => void,
-        end?: (timestamp: bigint) => void,
-        error?: ({readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timestamp: bigint, type: string, XHR: XMLHttpRequest}) => void,
-        progress?: ({lengthComputable: boolean, loaded: number, total: number, timestamp: bigint}) => void,
-        readystate?: ({readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timestamp: bigint}) => void,
-        start?: (timestamp: bigint) => void,
-        success?: ({readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timestamp: bigint, getAllResponseHeaders: () => XMLHttpRequest.getAllResponseHeaders(), getResponseHeader: (header: string) => XMLHttpRequest.getResponseHeader(header), response: XMLHttpRequest.response, XHR: XMLHttpRequest}) => void,
-        timeouted?: (timestamp: bigint) => void,
-        XHR?: ({abort: () => XMLHttpRequest.abort(), XHR: XMLHttpRequest}) => void
-    }?
-): Promise<resolve(success: any), reject(error: any)>
+        async = true,
+        body = null,
+        headers = {},
+        method = 'GET',
+        mimeType = 'text/plain', // type/subtype;parameter=value
+        password = null,
+        responseType = 'text',
+        timeout = 0, // Time in milliseconds
+        user = null,
+        withCredentials = false,
+        aborted = () => {},
+        end = () => {},
+        error = () => {},
+        progress = () => {},
+        readystate = () => {},
+        start = () => {},
+        success = () => {},
+        timeouted = () => {},
+        XHR = () => {}
+    }: {
+        async?: boolean,
+        body?: ArrayBuffer | ArrayBufferView | Blob | BufferSource | Document | FormData | ReadableStream<any> | string | URLSearchParams | null,
+        headers?: Headers | { [ string: string ]: string },
+        method?: 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE',
+        mimeType?: string,
+        password?: string | null,
+        responseType?: 'arraybuffer' | 'blob' | 'document' | 'json' | 'text',
+        timeout?: number,
+        user?: string | null,
+        withCredentials?: boolean,
+        aborted?: (timeStamp: number) => void,
+        end?: (timeStamp: number) => void,
+        error?: (error: {readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timeStamp: number, type: string, XHR: XMLHttpRequest}) => void,
+        progress?: (progress: {lengthComputable: boolean, loaded: number, total: number, timeStamp: number}) => void,
+        readystate?: (readystate: {readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timeStamp: number}) => void,
+        start?: (timeStamp: number) => void,
+        success?: (success: {readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timeStamp: number, getAllResponseHeaders: XMLHttpRequest['getAllResponseHeaders'], getResponseHeader: XMLHttpRequest['getResponseHeader'], response: XMLHttpRequest['response'], XHR: XMLHttpRequest}) => void,
+        timeouted?: (timeStamp: number) => void,
+        XHR?: (XHR: {abort: XMLHttpRequest['abort'], XHR: XMLHttpRequest}) => void
+    } = {}
+): Promise<{readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timeStamp: number, getAllResponseHeaders: XMLHttpRequest['getAllResponseHeaders'], getResponseHeader: XMLHttpRequest['getResponseHeader'], response: XMLHttpRequest['response'], XHR: XMLHttpRequest}>
 ```
 
 ## How to use
 ```javascript
 // Simple GET
-    // Promise
-        Ajax('/path').then(e => console.log('Success', e)).catch(e => console.log('Error', e));
-    
     // Callback
         Ajax('/path', {
-            success: e => console.log('Success', e),
-            error: e => console.log('Error', e)
+            success: e => console.log('Success', e.readyState, e.status, e.statusText, e.timestamp, e.getAllResponseHeaders(), e.getResponseHeader('content-type'), e.response, e.XHR),
+            error: e => console.log('Error', e.readyState, e.status, e.statusText, e.timestamp, e.type, e.XHR)
         });
+
+    // Promise
+        Ajax('/path')
+            .then(e => console.log('Success', e.readyState, e.status, e.statusText, e.timestamp, e.getAllResponseHeaders(), e.getResponseHeader('content-type'), e.response, e.XHR))
+            .catch(e => console.log('Error', e.readyState, e.status, e.statusText, e.timestamp, e.type, e.XHR));
 
 // Simple POST
 Ajax('/path', {
     method: 'POST',
     body: 'Hello World'
-}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+})
+    .then(e => console.log('Success', e))
+    .catch(e => console.log('Error', e));
 
 // Send and Receive JSON
 Ajax('/path', {
@@ -60,7 +84,9 @@ Ajax('/path', {
     },
     responseType: 'JSON',
     body: JSON.stringify({"content": "Hello World"})
-}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+})
+    .then(e => console.log('Success', e))
+    .catch(e => console.log('Error', e));
 
 // Upload Progress
 Ajax('/formHandler', {
