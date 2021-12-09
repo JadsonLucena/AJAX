@@ -54,7 +54,9 @@ Ajax(
 ```
 
 ## How to use
-```javascript
+```html
+<script src="https://cdn.jsdelivr.net/gh/JadsonLucena/Ajax@latest/src/Ajax.js"></script>
+<script>
 // Simple GET
     // Callback
         Ajax('/path', {
@@ -113,6 +115,7 @@ Ajax('/path', {
         'Authorization': 'Basic '+ btoa(login +':'+ password)
     }
 }).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+</script>
 ```
 
 ### References
