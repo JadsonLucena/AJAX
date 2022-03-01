@@ -1,4 +1,4 @@
-# Ajax
+# Ajax.js
 Through this facade, get all XHR events on promises or callbacks
 
 ## Which is?
