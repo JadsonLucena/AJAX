@@ -106,6 +106,11 @@ Ajax('/path', {
     progress: e => console.log('progress', e, parseInt(e.loaded / e.total * 100) +'%')
 }).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
 
+// Abort request
+Ajax('/path', {
+    XHR: XHR => setTimeout(() => XHR.abort(), 100)
+}).then(e => console.log('Success', e)).catch(e => console.log('Error', e));
+
 // Credentials
 let login = 'any';
 let password = 'any';
