@@ -51,8 +51,6 @@ function Ajax(url, {
 
     xhr.onreadystatechange = e => readystate(_state(e));
 
-    xhr.send(body);
-
     return new Promise((resolve, reject) => {
 
         let _success = e => ({ ..._state(e), getAllResponseHeaders: () => xhr.getAllResponseHeaders(), getResponseHeader: (header) => xhr.getResponseHeader(header), response: xhr.response, XHR: xhr }),
@@ -62,6 +60,8 @@ function Ajax(url, {
         scope.onerror = e => { error(_error(e)); reject(_error(e)); };
         xhr.onload = e => { success(_success(e)); resolve(_success(e)); };
         scope.ontimeout = e => { timeouted(e.timeStamp); reject(_error(e)); };
+
+        xhr.send(body);
 
         XHR({ abort: () => xhr.abort(), XHR: xhr });
 
