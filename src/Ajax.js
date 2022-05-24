@@ -41,9 +41,9 @@ function Ajax(url, {
 
     let scope = (/^(GET|HEAD)$/i.test(method.trim()) ? xhr : xhr.upload);
 
-    scope.onloadend = e => end(e.timeStamp);
+    xhr.onloadend = e => end(e.timeStamp);
 
-    scope.onloadstart = e => start(e.timeStamp);
+    xhr.onloadstart = e => start(e.timeStamp);
 
     scope.onprogress = e => progress({ lengthComputable: e.lengthComputable, loaded: e.loaded, total: e.total, timeStamp: e.timeStamp });
 
@@ -60,7 +60,7 @@ function Ajax(url, {
 
         scope.onabort = e => { aborted(e.timeStamp); reject(_error(e)); };
         scope.onerror = e => { error(_error(e)); reject(_error(e)); };
-        scope.onload = e => { success(_success(e)); resolve(_success(e)); };
+        xhr.onload = e => { success(_success(e)); resolve(_success(e)); };
         scope.ontimeout = e => { timeouted(e.timeStamp); reject(_error(e)); };
 
         XHR({ abort: () => xhr.abort(), XHR: xhr });
