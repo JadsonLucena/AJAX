@@ -53,7 +53,7 @@ Ajax(
 ): Promise<{readyState: 1 | 2 | 3 | 4, status: number, statusText: string, timeStamp: number, getAllResponseHeaders: XMLHttpRequest['getAllResponseHeaders'], getResponseHeader: XMLHttpRequest['getResponseHeader'], response: XMLHttpRequest['response'], XHR: XMLHttpRequest}>
 ```
 
-## How to use
+## QuickStart
 ```html
 <script src="https://cdn.jsdelivr.net/gh/JadsonLucena/Ajax@latest/src/Ajax.js"></script>
 <script>
