@@ -20,6 +20,14 @@ function Ajax(url, {
     XHR = e => console.log('XHR', e)
 } = {}) {
 
+    url = url.trim();
+    method = method.trim().toUpperCase();
+    mimeType = mimeType.trim().toLowerCase();
+    password = password?.trim();
+    responseType = responseType.trim().toLowerCase();
+    timeout = parseInt(timeout);
+    user = user?.trim();
+
     let xhr = new XMLHttpRequest();
 
     xhr.open(method, url, async, user, password);
