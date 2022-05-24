@@ -84,8 +84,8 @@ Ajax('/path', {
         'Content-type': 'application/json',
         'Accept': 'application/json'
     },
-    responseType: 'JSON',
-    body: JSON.stringify({"content": "Hello World"})
+    responseType: 'json',
+    body: JSON.stringify({ 'content': 'Hello World' })
 })
     .then(e => console.log('Success', e))
     .catch(e => console.log('Error', e));
